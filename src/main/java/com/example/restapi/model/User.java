@@ -20,7 +20,7 @@ import lombok.Data;
  * @Entity est une annotation qui indique que la classe correspond à une table
  * de la base de données.
  */
-@Table(name = "users")
+@Table(name = "admins")
 public class User {
 
     @Id

@@ -32,7 +32,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User saveEmployee(User user) {
+    public User saveUser(User user) {
         User savedUser = userRepository.save(user);
         return savedUser;
     }
