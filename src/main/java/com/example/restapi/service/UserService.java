@@ -1,6 +1,6 @@
 package com.example.restapi.service;
 
-import org.apache.el.stream.Optional;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +11,11 @@ import lombok.Data;
 
 @Data
 @Service
+/*
+ * @Service : tout comme l’annotation @Repository, c’est une spécialisation
+ * de @Component. Son rôle est donc le même, mais son nom a une valeur
+ * sémantique pour ceux qui lisent votre code.
+ */
 public class UserService {
     @Autowired
     private UserRepository userRepository;
