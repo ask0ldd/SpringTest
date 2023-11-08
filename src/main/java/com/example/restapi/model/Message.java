@@ -1,4 +1,4 @@
-package com.example.rest.api.model;
+package com.example.restapi.model;
 
 public class Message {
     public String value = "The console is working.";

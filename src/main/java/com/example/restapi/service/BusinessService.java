@@ -1,8 +1,8 @@
-package com.example.rest.api.service;
+package com.example.restapi.service;
 
 import org.springframework.stereotype.Component;
 
-import com.example.rest.api.model.Message;
+import com.example.restapi.model.Message;
 
 @Component
 public class BusinessService {
