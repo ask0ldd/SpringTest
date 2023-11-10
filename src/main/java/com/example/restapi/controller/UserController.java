@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 // import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,7 +56,7 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @PutMapping("/employee/{id}")
+    @PutMapping("/user/{id}")
     public User updateEmployee(@PathVariable("id") final Long id, @RequestBody User user) {
         Optional<User> e = userService.getUser(id);
         if (e.isPresent()) {
@@ -77,11 +78,17 @@ public class UserController {
             if (password != null) {
                 currentUser.setPassword(password);
             }
-            currentUser.saveUser(currentUser);
+            userService.saveUser(currentUser);
             return currentUser;
         } else {
-            return null;
+            return null; // return an error not found
         }
+    }
+
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable("id") final Long id) {
+        System.out.println(id);
+        userService.deleteUser(id);
     }
 
     /*
