@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class UserController {
     /**
      * Read - Get all employees
      * 
-     * @return - An Iterable object of Employee full filled
+     * @return - An Iterable object of Users
      */
     @GetMapping("/users")
     public Iterable<User> getUsers() {
@@ -52,6 +53,35 @@ public class UserController {
     @PostMapping("/user")
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
+    }
+
+    @PutMapping("/employee/{id}")
+    public User updateEmployee(@PathVariable("id") final Long id, @RequestBody User user) {
+        Optional<User> e = userService.getUser(id);
+        if (e.isPresent()) {
+            User currentUser = e.get();
+
+            String firstName = user.getFirstName();
+            if (firstName != null) {
+                currentUser.setFirstName(firstName);
+            }
+            String lastName = user.getLastName();
+            if (lastName != null) {
+                currentUser.setLastName(lastName);
+            }
+            String mail = user.getEmail();
+            if (mail != null) {
+                currentUser.setEmail(mail);
+            }
+            String password = user.getPassword();
+            if (password != null) {
+                currentUser.setPassword(password);
+            }
+            currentUser.saveUser(currentUser);
+            return currentUser;
+        } else {
+            return null;
+        }
     }
 
     /*
