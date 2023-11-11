@@ -3,6 +3,7 @@ package com.example.restapi.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 // import org.springframework.http.ResponseEntity;
@@ -40,12 +41,12 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable("id") final Long id) {
+    public ResponseEntity<?> getUser(@PathVariable("id") final Long id) {
         System.out.println(id);
         Optional<User> user = userService.getUser(id);
         System.out.println(user);
         if (user.isPresent()) {
-            return user.get();
+            return ResponseEntity.ok(user.get());
         } else {
             return null;
         }
@@ -81,7 +82,7 @@ public class UserController {
             userService.saveUser(currentUser);
             return currentUser;
         } else {
-            return null; // return an error not found
+            return null;
         }
     }
 
