@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.restapi.model.Message;
 import com.example.restapi.model.User;
-import com.example.restapi.repository.UserRepository;
 import com.example.restapi.service.BusinessService;
 import com.example.restapi.service.UserService;
 
@@ -40,8 +39,12 @@ public class RestapiApplication /* */ implements CommandLineRunner {
 		Message message = bs.getMessage();
 		System.out.println(message);
 
-		userService.saveUser(new User("Laurent", "GINA", "laurentgina@mail.com", "laurent"));
-		userService.saveUser(new User("Sophie", "FONCEK", "sophiefoncek@mail.com", "sophie"));
-		userService.saveUser(new User("Agathe", "FEELING", "agathefeeling@mail.com", "agathe"));
+		userService.saveUser(new User("Laurent", "GINA", "laurentgina@mail.com",
+				"laurent"));
+		userService.saveUser(new User("Sophie", "FONCEK", "sophiefoncek@mail.com",
+				"sophie"));
+		userService.saveUser(new User("Agathe", "FEELING", "agathefeeling@mail.com",
+				"agathe"));
+
 	}
 }

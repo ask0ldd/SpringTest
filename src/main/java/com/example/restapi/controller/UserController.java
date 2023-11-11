@@ -3,10 +3,10 @@ package com.example.restapi.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-// import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +31,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * Read - Get all employees
+     * Read - Get all users
      * 
      * @return - An Iterable object of Users
      */
@@ -48,7 +48,7 @@ public class UserController {
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
-            return null;
+            return new ResponseEntity<>("Can't find any User with this Id.", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public User updateEmployee(@PathVariable("id") final Long id, @RequestBody User user) {
+    public ResponseEntity<?> updateEmployee(@PathVariable("id") final Long id, @RequestBody User user) {
         Optional<User> e = userService.getUser(id);
         if (e.isPresent()) {
             User currentUser = e.get();
@@ -80,9 +80,10 @@ public class UserController {
                 currentUser.setPassword(password);
             }
             userService.saveUser(currentUser);
-            return currentUser;
+            // return currentUser;
+            return new ResponseEntity<>(currentUser, HttpStatus.OK);
         } else {
-            return null;
+            return new ResponseEntity<>("Can't find any User with this Id.", HttpStatus.NOT_FOUND);
         }
     }
 
