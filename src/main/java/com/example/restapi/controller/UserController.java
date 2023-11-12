@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restapi.model.User;
 import com.example.restapi.service.UserService;
+import com.example.restapi.service.ValidationService;
 
 /*
  * @RestController atteint 2 objectifs :
@@ -29,6 +30,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ValidationService validationService;
 
     /**
      * Read - Get all users
@@ -42,9 +45,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") final Long id) {
-        System.out.println(id);
         Optional<User> user = userService.getUser(id);
-        System.out.println(user);
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
@@ -64,23 +65,26 @@ public class UserController {
             User currentUser = e.get();
 
             String firstName = user.getFirstName();
-            if (firstName != null) {
+            if (firstName != null && validationService.isName(firstName)) {
                 currentUser.setFirstName(firstName);
             }
+
             String lastName = user.getLastName();
-            if (lastName != null) {
+            if (lastName != null && validationService.isName(lastName)) {
                 currentUser.setLastName(lastName);
             }
+
             String mail = user.getEmail();
-            if (mail != null) {
+            if (mail != null && validationService.isEmail(mail)) {
                 currentUser.setEmail(mail);
             }
+
             String password = user.getPassword();
             if (password != null) {
                 currentUser.setPassword(password);
             }
             userService.saveUser(currentUser);
-            // return currentUser;
+
             return new ResponseEntity<>(currentUser, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Can't find any User with this Id.", HttpStatus.NOT_FOUND);
