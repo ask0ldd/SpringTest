@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.restapi.model.Message;
 import com.example.restapi.model.User;
@@ -40,11 +41,11 @@ public class RestapiApplication /* */ implements CommandLineRunner {
 		System.out.println(message);
 
 		userService.saveUser(new User("Laurent", "GINA", "laurentgina@mail.com",
-				"laurent"));
+				new BCryptPasswordEncoder().encode("laurent")));
 		userService.saveUser(new User("Sophie", "FONCEK", "sophiefoncek@mail.com",
-				"sophie"));
+				new BCryptPasswordEncoder().encode("sophie")));
 		userService.saveUser(new User("Agathe", "FEELING", "agathefeeling@mail.com",
-				"agathe"));
+				new BCryptPasswordEncoder().encode("agathe")));
 
 	}
 }
