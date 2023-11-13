@@ -40,12 +40,14 @@ public class RestapiApplication /* */ implements CommandLineRunner {
 		Message message = bs.getMessage();
 		System.out.println(message);
 
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 		userService.saveUser(new User("Laurent", "GINA", "laurentgina@mail.com",
-				new BCryptPasswordEncoder().encode("laurent")));
+				passwordEncoder.encode("laurent")));
 		userService.saveUser(new User("Sophie", "FONCEK", "sophiefoncek@mail.com",
-				new BCryptPasswordEncoder().encode("sophie")));
+				passwordEncoder.encode("sophie")));
 		userService.saveUser(new User("Agathe", "FEELING", "agathefeeling@mail.com",
-				new BCryptPasswordEncoder().encode("agathe")));
+				passwordEncoder.encode("agathe")));
 
 	}
 }

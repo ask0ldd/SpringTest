@@ -74,14 +74,14 @@ public class UserController {
         if (userOptional.isPresent()) {
             User currentUser = userOptional.get();
 
-            String firstName = user.getFirstName();
+            String firstName = user.getFirstname();
             if (firstName != null && validationService.isName(firstName)) {
-                currentUser.setFirstName(firstName);
+                currentUser.setFirstname(firstName);
             }
 
-            String lastName = user.getLastName();
+            String lastName = user.getLastname();
             if (lastName != null && validationService.isName(lastName)) {
-                currentUser.setLastName(lastName);
+                currentUser.setLastname(lastName);
             }
 
             String mail = user.getEmail();

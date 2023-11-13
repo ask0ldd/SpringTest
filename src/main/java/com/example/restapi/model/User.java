@@ -1,5 +1,10 @@
 package com.example.restapi.model;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,17 +26,19 @@ import lombok.Data;
  * de la base de données.
  */
 @Table(name = "admins")
-public class User {
+/* spring security needs some UserDetails methods to be implemented */
+public class User /* implements UserDetails */ {
 
     @Id
+    /* GeneratedValue / Identity : autoincrement a number when id is missing */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "first_name")
-    private String firstName;
+    private String firstname;
 
     @Column(name = "last_name")
-    private String lastName;
+    private String lastname;
 
     @Column(name = "email")
     private String email;
@@ -44,9 +51,56 @@ public class User {
     }
 
     public User(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstName;
+        this.lastname = lastName;
         this.email = email;
         this.password = password;
     }
+
+    /*
+     * @Override
+     * public Collection<? extends GrantedAuthority> getAuthorities() {
+     * // TODO Auto-generated method stub
+     * throw new
+     * UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+     * }
+     * 
+     * @Override
+     * public String getUsername() {
+     * // TODO Auto-generated method stub
+     * throw new
+     * UnsupportedOperationException("Unimplemented method 'getUsername'");
+     * }
+     * 
+     * @Override
+     * public boolean isAccountNonExpired() {
+     * // TODO Auto-generated method stub
+     * throw new
+     * UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
+     * }
+     * 
+     * @Override
+     * public boolean isAccountNonLocked() {
+     * // TODO Auto-generated method stub
+     * throw new
+     * UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
+     * }
+     * 
+     * @Override
+     * public boolean isCredentialsNonExpired() {
+     * // TODO Auto-generated method stub
+     * throw new
+     * UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'"
+     * );
+     * }
+     * 
+     * @Override
+     * public boolean isEnabled() {
+     * // TODO Auto-generated method stub
+     * throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
+     * }
+     */
+
+    /* spring security needs those UserDetails methods to be implemented */
+
 }
