@@ -39,7 +39,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    // why default constructor needed?
+    // !!! why default constructor needed?
     public User() {
     }
 

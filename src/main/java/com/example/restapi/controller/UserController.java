@@ -45,11 +45,11 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") final Long id) {
-        Optional<User> user = userService.getUser(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+        Optional<User> userOptional = userService.getUser(id);
+        if (userOptional.isPresent()) {
+            return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Can't find any User with this Id.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Can't find the requested User.", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -60,9 +60,9 @@ public class UserController {
 
     @PutMapping("/user/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable("id") final Long id, @RequestBody User user) {
-        Optional<User> e = userService.getUser(id);
-        if (e.isPresent()) {
-            User currentUser = e.get();
+        Optional<User> userOptional = userService.getUser(id);
+        if (userOptional.isPresent()) {
+            User currentUser = userOptional.get();
 
             String firstName = user.getFirstName();
             if (firstName != null && validationService.isName(firstName)) {
@@ -85,25 +85,16 @@ public class UserController {
             }
             userService.saveUser(currentUser);
 
-            return new ResponseEntity<>(currentUser, HttpStatus.OK);
+            return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Can't find any User with this Id.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Can't find the requested User.", HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable("id") final Long id) {
-        System.out.println(id);
         userService.deleteUser(id);
     }
-
-    /*
-     * public ResponseEntity<String> handlePostRequest(@RequestBody String
-     * requestBody) {
-     * // Handle the POST request here
-     * return ResponseEntity.ok("POST request handled successfully");
-     * }
-     */
 
 }
 
@@ -190,4 +181,12 @@ public class UserController {
  * }
  * 
  * 
+ */
+
+/*
+ * public ResponseEntity<String> handlePostRequest(@RequestBody String
+ * requestBody) {
+ * // Handle the POST request here
+ * return ResponseEntity.ok("POST request handled successfully");
+ * }
  */
