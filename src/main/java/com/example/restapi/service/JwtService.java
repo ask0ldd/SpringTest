@@ -1,6 +1,7 @@
 package com.example.restapi.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -29,11 +30,28 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    private Date extractExpirationDate(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
+    }
+
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().claims(extraClaims).subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSecret(), SignatureAlgorithm.HS256).compact(); // !!! compact
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String userEmail = extractUserEmail(token);
+        return userEmail.equals(userDetails.getUsername());
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpirationDate(token).before(new Date());
     }
 
     private Claims extractAllClaims(String token) {
