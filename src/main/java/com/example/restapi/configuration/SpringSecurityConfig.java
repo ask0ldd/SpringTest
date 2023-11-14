@@ -27,17 +27,11 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
-            /*
-             * auth.requestMatchers("/user/**").hasRole("USER");
-             * auth.requestMatchers("/users").permitAll();
-             * auth.requestMatchers("/h2-console/**").permitAll();
-             */
+            auth.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll();
             auth.requestMatchers(new AntPathRequestMatcher("/admin")).hasRole("ADMIN");
             auth.requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()/* .hasRole("USER") */;
             auth.requestMatchers(new AntPathRequestMatcher("/users")).permitAll();
             auth.anyRequest().authenticated();
-
-            // auth.anyRequest().permitAll();
         }).build();
     }
 
