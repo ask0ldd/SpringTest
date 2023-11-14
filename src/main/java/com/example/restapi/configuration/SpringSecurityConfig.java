@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 // import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 // import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,8 +32,9 @@ public class SpringSecurityConfig {
              * auth.requestMatchers("/users").permitAll();
              * auth.requestMatchers("/h2-console/**").permitAll();
              */
-            auth.requestMatchers("/admin").hasRole("ADMIN");
-            auth.requestMatchers("/user").hasRole("USER");
+            auth.requestMatchers(new AntPathRequestMatcher("/admin")).hasRole("ADMIN");
+            auth.requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()/* .hasRole("USER") */;
+            auth.requestMatchers(new AntPathRequestMatcher("/users")).permitAll();
             auth.anyRequest().authenticated();
 
             // auth.anyRequest().permitAll();
@@ -60,3 +62,17 @@ public class SpringSecurityConfig {
      * roles#/id/r-7276338
      */
 }
+
+/*
+ * http
+ * .requestMatchers()
+ * .antMatchers("/management/") // Define the URL pattern
+ * .and()
+ * .authorizeRequests()
+ * .antMatchers("/management/health").permitAll() // Define authorization rules
+ * .antMatchers("/management/info").permitAll()
+ * .antMatchers("/management/").hasRole("ACTUATOR")
+ * .anyRequest().permitAll()
+ * .and()
+ * .httpBasic();
+ */
